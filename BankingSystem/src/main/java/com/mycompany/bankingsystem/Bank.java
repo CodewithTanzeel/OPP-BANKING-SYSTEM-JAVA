@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.bankingsystem;
-
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,5 +32,12 @@ public class Bank {
     public List<BankAccount> getAccounts() {
         return accounts;
     }
+    public static void main(String args) throws IOException{
+        try(FileWriter writer=new FileWriter("BankData.CSV")){
+            writer.write("FirstName,LastName,Age,Gender,MobileNumber,AccountNumber,Balance");
+            for()
+            
+        }
+    } 
 }
 

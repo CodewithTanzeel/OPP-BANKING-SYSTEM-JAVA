@@ -34,9 +34,5 @@ class Customer {
     public String getName() {
         return name;
     }
-    interface BankAccount{
-        String accNumber;
-        String Balance=;
-    }
     
 }

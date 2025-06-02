@@ -18,7 +18,7 @@ public class BankingSystem extends Bank{
 
     public static void main(String[] args) throws IOException{
         
-        CSVWriter write=new CSVWriter(new FileWriter("C:\\Users\\LENOVO\\Documents\\GitHub\\OPP-BANKING\\BankData.CSV"));
+        CSVWriter write=new CSVWriter(new FileWriter("C:\\Users\\LENOVO\\Documents\\GitHub\\OPP-BANKING-SYSTEM-JAVA\\BankingSystem\\src\\main\\java\\com\\mycompany\\bankingsystem\\BankData.CSV"));
         Scanner Input =new Scanner(System.in );
         String ask="yes";
         while(ask.equalsIgnoreCase("yes")){
@@ -30,9 +30,11 @@ public class BankingSystem extends Bank{
                 String age=Input.next();
                 String gender=Input.next();
                 String mobileNumber=Input.next();
+                System.out.print(mobileNumber);
                 int accNum=(int)(100000+Math.random()*10000);
                 String accNumber=""+accNum;
                 Customer user=new Customer(firstName,lastName,age,gender,mobileNumber,accNumber);
+                mobileNumber="0"+mobileNumber;
                 String[] userData={firstName,lastName,age,gender,mobileNumber,accNumber};
                 write.writeNext(userData);
                 write.flush();

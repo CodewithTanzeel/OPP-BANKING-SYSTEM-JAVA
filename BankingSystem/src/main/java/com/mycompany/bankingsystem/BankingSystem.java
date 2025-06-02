@@ -8,13 +8,17 @@ package com.mycompany.bankingsystem;
  *
  * @author LENOVO
  */
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
+import com.opencsv.CSVWriter;
+import java.io.*;
 import java.util.*;
-public class BankingSystem {
+public class BankingSystem extends Bank{
+     public BankingSystem(String firstName, String lastName, String age, String gender, String mobileNumber, String accNumber,double balance) {
+        super(firstName, lastName, age, gender, mobileNumber, accNumber,balance);
+    }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
+        
+        CSVWriter write=new CSVWriter(new FileWriter("C:\\Users\\LENOVO\\Documents\\GitHub\\OPP-BANKING\\BankData.CSV"));
         Scanner Input =new Scanner(System.in );
         String ask="yes";
         while(ask.equalsIgnoreCase("yes")){
@@ -29,6 +33,11 @@ public class BankingSystem {
                 int accNum=(int)(100000+Math.random()*10000);
                 String accNumber=""+accNum;
                 Customer user=new Customer(firstName,lastName,age,gender,mobileNumber,accNumber);
+                String[] userData={firstName,lastName,age,gender,mobileNumber,accNumber};
+                write.writeNext(userData);
+                write.flush();
+                break;
+                
                 
             }
         }

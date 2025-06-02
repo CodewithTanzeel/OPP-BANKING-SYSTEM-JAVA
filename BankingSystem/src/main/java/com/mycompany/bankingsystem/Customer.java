@@ -8,8 +8,8 @@ package com.mycompany.bankingsystem;
  *
  * @author K TECH
  */
-class Customer {
-      private String firstName;
+public class Customer {
+    private String firstName;
     private String lastName;
     private String age;
     private String gender;

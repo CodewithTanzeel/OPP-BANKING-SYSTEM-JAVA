@@ -3,14 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.bankingsystem;
-import java.io.FileWriter;
+import com.opencsv.CSVReader;
+import java.io.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bank {
+public class Bank extends BankAccount{
     private List<Customer> customers = new ArrayList<>();
     private List<BankAccount> accounts = new ArrayList<>();
+
+    public Bank(String firstName, String lastName, String age, String gender, String mobileNumber, String accNumber,double balance) {
+        super(firstName, lastName, age, gender, mobileNumber, accNumber,balance);
+    }
 
     public void addCustomer(Customer customer) {
         customers.add(customer);
@@ -32,12 +37,6 @@ public class Bank {
     public List<BankAccount> getAccounts() {
         return accounts;
     }
-    public static void main(String args) throws IOException{
-        try(FileWriter writer=new FileWriter("BankData.CSV")){
-            writer.write("FirstName,LastName,Age,Gender,MobileNumber,AccountNumber,Balance");
-            for()
-            
-        }
-    } 
+
 }
 

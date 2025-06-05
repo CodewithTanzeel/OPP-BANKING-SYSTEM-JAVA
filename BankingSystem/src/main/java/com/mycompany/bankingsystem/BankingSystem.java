@@ -72,7 +72,46 @@ public class BankingSystem extends Bank{
                         }
                     }
                 }
-
+                double Balance ;
+                Balance = 0;
+                double new_amount=0 ;
+                double withdrawal_amount=0 ;
+        
+        Scanner in = new Scanner (System.in);
+        System.out.println("Enter (balance or with-drawal or debit or transaction) :");
+        char options = in.next().charAt(0);
+        switch (options){
+            case 'b':
+            case 'B':
+                Balance = 90000000 ;
+                System.out.println("Your current balance is " + Balance);
+            case 'w':
+            case 'W':
+                System.out.println("Enter your amount:");
+                withdrawal_amount = in.nextDouble();
+                new_amount = Balance - withdrawal_amount ;
+                System.out.println("***Your new remaining amount after with drawal is :" + new_amount );
+            case 'd':
+            case 'D':
+                System.out.println("Enter your amount:");
+                double debit_amount = in.nextDouble();
+                new_amount = Balance + debit_amount ;
+                System.out.println("***Your new remaining amount after debit is :" + new_amount );
+            case 't':
+            case 'T':
+                System.out.println("Enter your amount:");
+                double transaction_amount = in.nextDouble();
+                System.out.println("Enter person name to which the amount is transfered:");
+                String person_name = in.nextLine();
+                new_amount = Balance - transaction_amount ;
+                System.out.println("Enter person account number for transfer of money:");
+                int acc_num = in.nextInt();
+                System.out.println("Your transfered money amount is " + transaction_amount +
+                                   "Your new remaining amount after Transaction is :" + new_amount +
+                                   "\nTo" + person_name + 
+                                   "\nwith account number is :" + acc_num);
+                
+        }
                 
             }
         }

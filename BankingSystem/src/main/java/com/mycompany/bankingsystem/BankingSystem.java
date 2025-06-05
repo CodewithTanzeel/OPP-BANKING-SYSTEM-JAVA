@@ -4,108 +4,72 @@
 
 package com.mycompany.bankingsystem;
 
+/**
+ *
+ * @author LENOVO
+ */
 import com.opencsv.CSVWriter;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import java.io.*;
 import java.util.*;
+import java.text.*;
 
-public class BankingSystem extends Bank {
-    private static final String CSV_FILE_PATH = "C:\\Users\\LENOVO\\Documents\\GitHub\\OPP-BANKING-SYSTEM-JAVA\\BankingSystem\\src\\main\\java\\com\\mycompany\\bankingsystem\\BankData.CSV";
 
-    public BankingSystem(String firstName, String lastName, String age, String gender, String mobileNumber, String accNumber, double balance) {
-        super(firstName, lastName, age, gender, mobileNumber, accNumber, balance);
+public class BankingSystem extends Bank{
+     public BankingSystem(String firstName, String lastName, String age, String gender, String mobileNumber, String accNumber,double balance) {
+        super(firstName, lastName, age, gender, mobileNumber, accNumber,balance);
     }
 
-    public static void main(String[] args) throws IOException {
-        Scanner input = new Scanner(System.in);
-        String ask = "yes";
+    public static void main(String[] args) throws IOException, CsvException{
         
-        while (ask.equalsIgnoreCase("yes")) {
-            System.out.print("Please select your choice:\n1. Login \n2. Register \n3. Search Customer \nEnter your choice: ");
-            String choice = input.next();
-            
-            switch (choice.toLowerCase()) {
-                case "register":
-                    registerCustomer(input);
-                    break;
-                case "login":
-                    // Add your login logic here
-                    break;
-                case "search":
-                case "3":
-                    searchCustomer(input);
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+        
+        String path="C:\\Users\\LENOVO\\Documents\\GitHub\\OPP-BANKING-SYSTEM-JAVA\\BankingSystem\\src\\main\\java\\com\\mycompany\\bankingsystem\\BankData.CSV";
+        CSVWriter write=new CSVWriter(new FileWriter(path));
+        Scanner Input =new Scanner(System.in );
+        String ask="yes";
+        while(ask.equalsIgnoreCase("yes")){
+            System.out.print("Please select your choice:\n1.login \n2.register \nEnter:");
+            String choice=Input.next();
+            if(choice.equalsIgnoreCase("register")){
+                String firstName=Input.next();
+                String lastName=Input.next();
+                String age=Input.next();
+                String gender=Input.next();
+                String mobileNumber=Input.next();
+                System.out.print(mobileNumber);
+                int accNum=(int)(100000+Math.random()*10000);
+                String accNumber=""+accNum;
+                String[] userData={firstName,lastName,age,gender,mobileNumber,accNumber,"0.0"};
+                write.writeNext(userData);
+                write.flush();
+                break;   
             }
-            
-            System.out.print("Do you want to continue? (yes/no): ");
-            ask = input.next();
+            else if(choice.equalsIgnoreCase("login")){
+                CSVReader reader = new CSVReader(new FileReader(path));
+                System.out.println("enter your first name and account number:");
+                
+                
+                    String confirmName=Input.next();
+                    String confirmAccountNumber=Input.next();
+                    List<String[]> allCustomer= reader.readAll();
+                    boolean found= false;
+                    for(String[] customer:allCustomer){
+                        if(confirmName.equalsIgnoreCase(customer[0]) && confirmAccountNumber.equalsIgnoreCase(customer[5])){
+                            found=true;
+                            System.out.println("Login successfully");
+                            double balance = Double.parseDouble(customer[7]);
+                            Bank user=new Bank(customer[0],customer[1],customer[3],customer[4],customer[5],customer[6],balance);
+                            break;
+                        }
+                    }
+                    if(!found){
+                        System.out.println("Acount don't exist.");
+                        break;
+                    }
+                } 
+                
+            }
         }
     }
 
-    private static void registerCustomer(Scanner input) throws IOException {
-        CSVWriter write = new CSVWriter(new FileWriter(CSV_FILE_PATH, true));
-        
-        System.out.println("--- Customer Registration ---");
-        System.out.print("Enter First Name: ");
-        String firstName = input.next();
-        System.out.print("Enter Last Name: ");
-        String lastName = input.next();
-        System.out.print("Enter Age: ");
-        String age = input.next();
-        System.out.print("Enter Gender: ");
-        String gender = input.next();
-        System.out.print("Enter Mobile Number: ");
-        String mobileNumber = input.next();
-        
-        int accNum = (int)(100000 + Math.random() * 10000);
-        String accNumber = "" + accNum;
-        mobileNumber = "0" + mobileNumber;
-        
-        String[] userData = {firstName, lastName, age, gender, mobileNumber, accNumber, "0.0"}; // Initial balance 0.0
-        write.writeNext(userData);
-        write.close();
-        
-        System.out.println("Registration successful!");
-        System.out.println("Your account number is: " + accNumber);
-    }
-
-    private static void searchCustomer(Scanner input) {
-        System.out.println("--- Customer Search ---");
-        System.out.print("Enter search term (name, account number): ");
-        String searchTerm01 = input.next();
-        String searchTerm02 = input.next();
-        
-        try (CSVReader reader = new CSVReader(new FileReader(CSV_FILE_PATH))) {
-            List<String[]> allCustomers = reader.readAll();
-            boolean found = false;
-            
-            System.out.println("\nSearch Results:");
-            System.out.println("------------------------------------------------------------------");
-            System.out.printf("%-15s %-15s %-5s %-8s %-15s %-10s %-10s%n", 
-                "First Name", "Last Name", "Age", "Gender", "Mobile", "Account No", "Balance");
-            System.out.println("------------------------------------------------------------------");
-            
-            for (String[] customer : allCustomers) {
-                 
-                    if (customer[0].equalsIgnoreCase(searchTerm01 ) && customer[5].equalsIgnoreCase(searchTerm02 )) {
-                        // Print the entire customer record
-                        System.out.printf("%-15s %-15s %-5s %-8s %-15s %-10s %-10s%n", 
-                            customer[0], customer[1], customer[2], customer[3], 
-                            customer[4], customer[5], customer[6]);
-                        found = true;
-                        break; // Move to next customer after finding a match
-                }
-            }
-            
-            if (!found) {
-                System.out.println("No customers found matching: " + searchTerm01);
-            }
-            
-        } catch (IOException | CsvException e) {
-            System.out.println("Error reading customer data: " + e.getMessage());
-        }
-    }
-}
